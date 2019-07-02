@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="eventNoticeService" class="com.sample.di.demo4.EventNoticeService">
+		<!-- <property name="messenger" ref="smsMessenger"></property> -->
+		<property name="messenger" ref="katalkMessenger"></property>
+	</bean>
+	
+	<bean id="orderService" class="com.sample.di.demo4.OrderService">
+		<!-- <property name="messenger" ref="smsMessenger"></property> -->
+		<property name="messenger" ref="katalkMessenger"></property>
+	</bean>
+	
+	<bean id="smsMessenger" class="com.sample.di.demo4.SmsMessenger"></bean>		<!-- id를 'ms'처럼 간단한 이름을 주고 밑에 messenger만 바꾸면 편함 -->
+	
+	<bean id="katalkMessenger" class="com.sample.di.demo4.KatalkMessenger"></bean>
+
+</beans>

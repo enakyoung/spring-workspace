@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap>
+
+	<select id="getAllCustomer" resultClass="kr.co.jhta.vo.Customer">
+		select cust_no as custNo, cust_name as custName, cust_phone as custPhone
+		from tb_customers
+		order by cust_no asc
+	</select>
+	
+	<select id="getCustomerByNo" parameterClass="int" resultClass="kr.co.jhta.vo.Customer">
+		select cust_no as custNo, cust_name as custName, cust_fname as custFName, cust_phone as custPhone,
+				cust_email as custEmail, cust_add as custAdd, cust_point as custPoint, cust_create_date as custCreateDate
+		from tb_customers
+		where cust_no = #custNo#
+	</select>
+	
+	<select id="getCustomerByKeyword" parameterClass="map" resultClass="kr.co.jhta.vo.Customer">
+		select *
+		from tb_customers
+		where 
+			<dynamic>
+				<isNotNull property="searchOpt">
+					<isEqual property="searchOpt" compareValue="custNo">
+						custNo = #custNo#
+					</isEqual>
+					<isEqual property="searchOpt" compareValue="custName">
+						and custName = #custName#
+					</isEqual>
+					<isEqual property="searchOpt" compareValue="custFName">
+						and custFName = #custFName#
+					</isEqual>
+				</isNotNull>
+			</dynamic>
+	</select>
+	
+	<update id="updateCustomer" parameterClass="kr.co.jhta.vo.Customer">
+		update tb_customers 
+		set 
+			cust_fname = #custFName#,
+			cust_phone = #custPhone#,
+			cust_email = #custEmail#,
+			cust_add = #custAdd#,
+			cust_point = #custPoint#
+		where cust_no = #custNo#
+	</update>
+	
+	<delete id="deleteCustomer" parameterClass="int">
+		delete tb_customers
+		where cust_no = #value#
+	</delete>
+	
+	<insert id="addCustomer" parameterClass="kr.co.jhta.vo.Customer">
+		insert into tb_customers(cust_no, cust_name, cust_fname, cust_phone, cust_email, cust_add, cust_point)
+		values(
+			cust_no = cust_seq.nextval,
+			cust_name = #custName#,
+			cust_fname = #custFName#,
+			cust_phone = #custPhone#,
+			cust_email = #custEmail#,
+			cust_add = #custAdd#,
+			cust_point = #custPoint#,
+		)
+	</insert>
+
+</sqlMap>
